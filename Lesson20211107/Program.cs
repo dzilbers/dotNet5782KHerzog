@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Lesson20211107
 {
@@ -19,7 +21,10 @@ namespace Lesson20211107
 
 
             int[] arr = { 1, 2, 3, 4, 5 };
-            //var (a, b, rest) = arr;
+            var (a, b, rest) = arr;
+
+            List<int> list = new() { 1, 2, 3, 4, 5, 6 };
+            (int c, int d, int [] rest2) = list;
 
             MyClass1 o1 = new();
             MyClass2 o2 = (MyClass2)o1;
