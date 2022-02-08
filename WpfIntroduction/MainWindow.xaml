@@ -4,35 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfIntroduction"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Start Window" Height="150" Width="300" PreviewMouseLeftButtonDown="windowPreviewLeftButton">
+        DataContext="{Binding RelativeSource={RelativeSource self}}"
+        Title="Start Window" Height="150" Width="300" 
+        PreviewMouseLeftButtonDown="windowPreviewLeftButton" Loaded="wndStart_Loaded">
     <Window.Resources>
-        <local:MyClass x:Key="obj1"/>
+        <local:User x:Key="user" Name="meirpc" Password="123"/>
+        <local:User x:Key="user2" Name="yairb" Password="123"/>
+        <SolidColorBrush x:Key="grey" Color="Gray"/>
     </Window.Resources>
     <Grid>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Top" Width="79" Height="28"/>
-        <TextBox x:Name="tbName" Text="Ariel" HorizontalAlignment="Center" Margin="0,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="18,0,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Center" Height="43" Width="119"/>
-        <CheckBox x:Name="myChkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="220,12,0,0"
-                  VerticalAlignment="Top" IsChecked="True" Checked="myChk_PutVorX"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="18,13,0,0"
+               VerticalAlignment="Top" Width="79" Height="28"
+               Style="{Binding Source={StaticResource style1}}"/>
+        <TextBox x:Name="tbName" DataContext="{DynamicResource user2}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalAlignment="Center" Margin="0,18,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="120"
+                 Background="{Binding Source={StaticResource myBrush}}"/>
+        <TextBlock HorizontalAlignment="Left" DataContext="{DynamicResource user2}" Margin="18,0,0,0" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" Height="43" Width="119"/>
+        <CheckBox x:Name="myChkBox" Content="{Binding ChkBoxText}" HorizontalAlignment="Left" Margin="220,12,0,0"
+                  VerticalAlignment="Top" IsChecked="{Binding ChkBoxStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="myChk_PutVorX"/>
         <RadioButton Content="male" HorizontalAlignment="Left" Margin="220,32,0,0" VerticalAlignment="Top" GroupName="sex" IsChecked="True"/>
         <RadioButton Content="female" HorizontalAlignment="Left" Margin="220,47,0,0" VerticalAlignment="Top" GroupName="sex"/>
         <ListBox x:Name="myList" HorizontalAlignment="Left" Height="65" Margin="18,62,0,0" VerticalAlignment="Top"
-                 Width="97">
+                 Width="97" Background="{StaticResource myBrush}">
             <ListBox.Items>
                 <ListBoxItem>Item1</ListBoxItem>
                 <ListBoxItem>Item2</ListBoxItem>
                 <ListBoxItem>Item3</ListBoxItem>
             </ListBox.Items>
         </ListBox>
-        <ComboBox HorizontalAlignment="Left" Margin="133,71,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged">
+        <ComboBox HorizontalAlignment="Left" Margin="133,71,0,0" VerticalAlignment="Top"
+                  Width="120" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBox.Items>
                 <ComboBoxItem>Combo1</ComboBoxItem>
                 <ComboBoxItem>Combo2</ComboBoxItem>
             </ComboBox.Items>
         </ComboBox>
-        <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Margin="212,103,0,0"
+        <Button x:Name="btnOK" Content="{x:Static local:MainWindow.ButtonText}" HorizontalAlignment="Left" Margin="212,103,0,0"
                 VerticalAlignment="Top" Height="Auto" Width="46" RenderTransformOrigin="0.5,0.5"
-                Click="btnOK_Click" PreviewMouseLeftButtonDown="btnOK_PreviewMouseLeftButtonDown"/>
+                Click="btnOK_Click" PreviewMouseLeftButtonDown="btnOK_PreviewMouseLeftButtonDown"
+                IsEnabled="{Binding IsChecked, ElementName=myChkBox}"/>
+        <TextBox HorizontalAlignment="Left" Margin="120,103,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="90"
+                 Background="{Binding Text, RelativeSource={RelativeSource Mode=Self}, FallbackValue={StaticResource grey}}"/>
+        <Rectangle HorizontalAlignment="Left" Height="21" Margin="145,41,0,0" Stroke="Black"
+                   VerticalAlignment="Top" Width="{Binding Height, RelativeSource={RelativeSource Self}}"/>
     </Grid>
 </Window>

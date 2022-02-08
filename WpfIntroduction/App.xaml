@@ -4,6 +4,16 @@
              xmlns:local="clr-namespace:WpfIntroduction"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <LinearGradientBrush x:Key="myBrush">
+            <GradientStop Color="Yellow" Offset="0"/>
+            <GradientStop Color="GreenYellow" Offset="0.5"/>
+            <GradientStop Color="Red" Offset="1"/>
+        </LinearGradientBrush>
+        <Style x:Key="style1" TargetType="Label">
+            <Setter Property="Background" Value="{Binding Source={StaticResource myBrush}}"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Background" Value="{Binding Source={StaticResource myBrush}}"/>
+        </Style>
     </Application.Resources>
 </Application>

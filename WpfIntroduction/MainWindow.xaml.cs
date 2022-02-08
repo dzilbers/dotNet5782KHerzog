@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,16 @@ namespace WpfIntroduction
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static string ButtonText { get; set; } = "Next";
+        public string ChkBoxText { get; set; } = "Allow Next";
+        public bool ChkBoxStatus { get; set; } = true;
+
         public MainWindow()
         {
             InitializeComponent();
             wndStart.Title = "Kiriat Herzog";
             btnOK.Content = "אשר";
-            tbName.Text = "Adir";
+            //tbName.Text = "Adir";
             myList.SelectionChanged += myList_Select;
         }
 
@@ -70,7 +75,7 @@ namespace WpfIntroduction
 
         private void windowPreviewLeftButton(object sender, MouseButtonEventArgs e)
         {
-            if (!myChkBox.IsChecked ?? false)
+            if (!ChkBoxStatus)
                 e.Handled = true;
         }
 
@@ -89,7 +94,41 @@ namespace WpfIntroduction
             btn.Margin = margin;
         }
 
+        private void wndStart_Loaded(object sender, RoutedEventArgs e)
+        {
+            ResourceDictionary resources = this.Resources;
+            resources["user2"] = new User { Name = "ariel", Password = "123" };
+        }
     }
 
-    public class MyClass { }
+    public class User : DependencyObject
+    {
+        public string Name { get => (string)GetValue(NameDependency); set => SetValue(NameDependency, value); }
+        public string Password { get => (string)GetValue(PasswordDependency); set => SetValue(PasswordDependency, value); }
+
+        static readonly DependencyProperty NameDependency =
+            DependencyProperty.Register(nameof(Name), typeof(string), typeof(User));
+        static readonly DependencyProperty PasswordDependency =
+            DependencyProperty.Register(nameof(Password), typeof(string), typeof(User));
+    }
+
+    public class Person // if it's not a class I can change then Sutdent can't be DependencyObject...
+    {
+        public string Name { get; set; }
+    }
+
+    public class Student : Person, INotifyPropertyChanged 
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        int year;
+        public int Year
+        {
+            get => year;
+            set
+            {
+                year = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(Year)));
+            }
+        }
+    }
 }

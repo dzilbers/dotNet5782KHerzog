@@ -6,4 +6,8 @@
     <AssemblyName>Yossi</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
+  </ItemGroup>
+
 </Project>
