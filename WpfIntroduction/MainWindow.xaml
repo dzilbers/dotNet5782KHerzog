@@ -28,12 +28,17 @@
         <RadioButton Content="male" HorizontalAlignment="Left" Margin="220,32,0,0" VerticalAlignment="Top" GroupName="sex" IsChecked="True"/>
         <RadioButton Content="female" HorizontalAlignment="Left" Margin="220,47,0,0" VerticalAlignment="Top" GroupName="sex"/>
         <ListBox x:Name="myList" HorizontalAlignment="Left" Height="65" Margin="18,62,0,0" VerticalAlignment="Top"
-                 Width="97" Background="{StaticResource myBrush}">
-            <ListBox.Items>
+                 Width="97" Background="{StaticResource myBrush}" ItemsSource="{Binding ItemsList, Mode=TwoWay}">
+            <!--ListBox.Items>
                 <ListBoxItem>Item1</ListBoxItem>
                 <ListBoxItem>Item2</ListBoxItem>
                 <ListBoxItem>Item3</ListBoxItem>
-            </ListBox.Items>
+            </ListBox.Items-->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding}" PreviewMouseDoubleClick="Label_MouseDoubleClick" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
         <ComboBox HorizontalAlignment="Left" Margin="133,71,0,0" VerticalAlignment="Top"
                   Width="120" SelectionChanged="ComboBox_SelectionChanged">

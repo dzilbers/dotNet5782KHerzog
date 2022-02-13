@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,14 @@ namespace WpfIntroduction
         public string ChkBoxText { get; set; } = "Allow Next";
         public bool ChkBoxStatus { get; set; } = true;
 
+        //static readonly DependencyProperty ItemsDep = DependencyProperty.Register(nameof(ItemsList), typeof(List<string>), typeof(MainWindow));
+        //public List<string> ItemsList { get => (List<String>)GetValue(ItemsDep); set => SetValue(ItemsDep, value); }
+        static readonly DependencyProperty ItemsDep = DependencyProperty.Register(nameof(ItemsList), typeof(ObservableCollection<string>), typeof(MainWindow));
+        public ObservableCollection<string> ItemsList { get => (ObservableCollection<String>)GetValue(ItemsDep); set => SetValue(ItemsDep, value); }
+
         public MainWindow()
         {
+            ItemsList = new ObservableCollection<string> (new string[] { "Item1", "Item2", "Item3", "Item4" });
             InitializeComponent();
             wndStart.Title = "Kiriat Herzog";
             btnOK.Content = "אשר";
@@ -98,6 +105,22 @@ namespace WpfIntroduction
         {
             ResourceDictionary resources = this.Resources;
             resources["user2"] = new User { Name = "ariel", Password = "123" };
+        }
+
+        private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Label label = sender as Label;
+            string str = (string)label.DataContext;
+            int.TryParse(str.Substring(str.Length - 1, 1), out int count);
+
+            //List<string> newList = new(ItemsList);
+
+            //for (int i = 0; i < count; ++i)
+            //    newList.Add(str);
+            //ItemsList = newList;
+            for (int i = 0; i < count; ++i)
+                ItemsList.Add(str);
+
         }
     }
 
